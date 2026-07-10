@@ -485,16 +485,17 @@ export default function GitHubSyncModal({
             {/* GitHub Pages Guide */}
             <div className="bg-navy border border-navy-lite/40 p-4 rounded-lg space-y-2">
               <h4 className="text-[10px] uppercase font-bold text-gold flex items-center gap-1">
-                <HelpCircle size={12} /> GitHub Pages Integration
+                <HelpCircle size={12} /> GitHub Pages & Actions Workflow
               </h4>
               <p className="text-[11px] text-blue-300/70 leading-relaxed">
-                Our application compiles using relative asset links (<code className="text-gold font-mono">base: './'</code>), which means it is 100% pre-configured to run perfectly inside your nested GitHub Pages site path!
+                Our application compiles using relative asset links (<code className="text-gold font-mono">base: './'</code>) and includes a pre-configured GitHub Actions workflow in <code className="text-gold font-mono">.github/workflows/deploy.yml</code>!
               </p>
               <div className="text-[10px] text-blue-300/50 space-y-1 list-decimal pl-3 leading-normal">
-                <div>• Push this repository to GitHub.</div>
-                <div>• Go to <span className="text-blue-300 font-semibold">Settings &gt; Pages</span> on GitHub.</div>
-                <div>• Choose deploy from the main branch or configure custom GitHub Actions.</div>
-                <div>• Any certificates uploaded here go straight into your hosted domain!</div>
+                <div>• Push this entire repository to your GitHub repository.</div>
+                <div>• Under repository <span className="text-blue-300 font-semibold">Settings &gt; Pages</span>:</div>
+                <div className="pl-4 text-blue-300/40">Choose Build and deployment Source: <span className="text-gold font-semibold">"GitHub Actions"</span>.</div>
+                <div>• GitHub Actions will automatically compile, package, and host your certificate tool!</div>
+                <div>• Any certificates deployed here go straight into your hosted folder.</div>
               </div>
             </div>
           </div>
