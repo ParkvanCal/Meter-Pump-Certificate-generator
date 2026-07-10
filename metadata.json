@@ -1,0 +1,6 @@
+{
+  "name": "Parkvan Calibration Generator",
+  "description": "Professional fuel metering calibration certificate generator with real-time tolerance checks and PDF export.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

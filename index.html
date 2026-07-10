@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parkvan Calibration Generator</title>
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#0a1929" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        // If in development/preview, unregister service workers and clear caches to prevent stale preview/iframe blank screens
+        const isDev = window.location.hostname.includes('ais-dev') || 
+                      window.location.hostname.includes('localhost') || 
+                      window.location.port === '3000';
+        
+        if (isDev) {
+          navigator.serviceWorker.getRegistrations().then((registrations) => {
+            for (const registration of registrations) {
+              registration.unregister().then((success) => {
+                if (success) console.log('Successfully unregistered stale development service worker.');
+              });
+            }
+          });
+          if ('caches' in window) {
+            caches.keys().then((keys) => {
+              for (const key of keys) {
+                caches.delete(key).then(() => {
+                  console.log('Cleared stale development cache:', key);
+                });
+              }
+            });
+          }
+        } else {
+          // Register service worker in production/shared mode
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW registration failed:', err));
+          });
+        }
+      }
+    </script>
+  </body>
+</html>
+
