@@ -4,7 +4,7 @@ import { format, parseISO } from 'date-fns';
 import { CertificateData, CalibrationRun } from '../types';
 import { COLORS } from '../constants';
 
-export async function generatePDF(data: CertificateData, logoBase64?: string): Promise<void> {
+export async function generatePDF(data: CertificateData, logoBase64?: string): Promise<jsPDF> {
   const doc = new jsPDF({
     orientation: 'portrait',
     unit: 'mm',
@@ -471,4 +471,5 @@ export async function generatePDF(data: CertificateData, logoBase64?: string): P
 
 
   doc.save(`Parkvan_Cert_${data.certNo}.pdf`);
+  return doc;
 }

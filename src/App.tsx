@@ -19,12 +19,14 @@ import {
   AlertCircle,
   FlaskConical,
   Gauge,
-  Factory
+  Factory,
+  Github
 } from 'lucide-react';
 import { format, addMonths, addYears, parseISO, isValid } from 'date-fns';
 import { CertificateData, CalibrationRun, CertificateType } from './types';
 import { cn, COLORS } from './constants';
 import { generatePDF } from './lib/pdf-generator';
+import GitHubSyncModal from './components/GitHubSyncModal';
 
 const formatDateDisplay = (dateStr: string) => {
   if (!dateStr) return '';
@@ -153,6 +155,7 @@ export default function App() {
   const [editingRunId, setEditingRunId] = useState<string | null>(null);
   const [showPreview, setShowPreview] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
+  const [showGitHubSync, setShowGitHubSync] = useState(false);
   const [installPrompt, setInstallPrompt] = useState<any>(null);
 
   // PWA Install Logic
@@ -611,6 +614,28 @@ export default function App() {
         )}
       </AnimatePresence>
 
+      {/* GitHub Sync Modal */}
+      <AnimatePresence>
+        {showGitHubSync && (
+          <GitHubSyncModal 
+            history={history} 
+            currentData={{
+              ...data,
+              avgError: summary.avgError,
+              avgFactor: summary.avgFactor,
+              beforeError: summary.beforeError,
+              verdict: summary.verdict as any,
+              verdictText: summary.verdictText
+            } as any}
+            onClose={() => setShowGitHubSync(false)} 
+            onRestore={(restoredHistory) => {
+              setHistory(restoredHistory);
+              localStorage.setItem('parkvan_history', JSON.stringify(restoredHistory));
+            }}
+          />
+        )}
+      </AnimatePresence>
+
       {/* App Bar */}
       <header className="bg-navy-mid border-b border-gold h-20 px-6 flex items-center justify-between rounded-t-xl shrink-0">
         <div className="flex items-center gap-4">
@@ -652,6 +677,14 @@ export default function App() {
             className="flex items-center gap-2 px-3 py-1.5 text-xs text-gold-lt hover:bg-navy rounded transition-all"
           >
             <History size={14} /> History
+          </motion.button>
+          <motion.button 
+            whileHover={{ scale: 1.05, backgroundColor: "rgba(10, 25, 41, 0.8)" }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setShowGitHubSync(true)} 
+            className="flex items-center gap-2 px-3 py-1.5 text-xs text-gold-lt hover:bg-navy rounded transition-all"
+          >
+            <Github size={14} /> GitHub Sync
           </motion.button>
            <motion.button 
              whileHover={{ scale: 1.05, backgroundColor: "rgba(10, 25, 41, 0.8)" }}
